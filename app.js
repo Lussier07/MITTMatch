@@ -13,4 +13,26 @@ let shuffle = function(array) {
   return array;
 }
 
-const cards = document.getElementById('cards');
+const restartGame = () => {
+  
+  // cards.classList.remove('show', 'matched')
+};
+
+
+
+const gameArea = document.querySelector('#cards');
+
+const revealCards = (e) => {
+  e.target.classList.add('show');
+};
+
+gameArea.addEventListener('click', revealCards)
+
+
+
+const cards = document.querySelectorAll('.card');
+console.log(cards);
+
+console.log(shuffle(cards));
+
+restartGame();
