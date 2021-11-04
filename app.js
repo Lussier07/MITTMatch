@@ -15,34 +15,62 @@ let shuffle = function(array) {
 
 const restartButton = document.querySelector('.restart');
 const gameArea = document.querySelector('#cards');
-const cards = document.querySelectorAll('.card');
+const cardList = document.querySelectorAll('.card');
+const cardHolder = document.getElementById('cards');
+const cardSymbol = cardHolder.getElementsByTagName('i');
+const nextCard = document.getElementById('next-card');
+const score = document.getElementById('score');
+// console.log(cardSymbol)
 // const cardArr = Array.from(cards);
 
 
 const restartGame = () => {
-  const cardArr = [];
-  for (const card of cards) {
-    card.classList.remove('show', 'matched');
-    cardArr.push(card);
-    console.log(card)
-  }
-  shuffle(cardArr);
+  clearClasses();
+  score.innerText = '0';
+  // const cardArr = [];
+  // let shuffled = {};
+  // for (const sym of cardList) {
+  // }
+  // cardList.appendChild(shuffle(cards.children));
+  // for (const card of cardList) {
+  //   card.classList.remove('show', 'matched');
+  //   cardArr.push(sym);
+    // cardArr.push(card);
+    // console.log(card);
+  // }
+  // for (const sym of cardArr) {
+  //   shuffled = {li: `${sym}`}
+  // }
+  // console.log(cardArr);
   // cards.classList.remove('show', 'matched')
 };
 
+const clearClasses = () => {
+  for (const card of cardList) {
+    card.classList.remove('show', 'matched');
+  }
+  // const cards = cardHolder.splice();
+  // console.log(shuffle(cards));
 
+}
 
 
 const revealCards = (e) => {
-  e.target.classList.add('show');
+  const flippedCard = e.target;
+  flippedCard.classList.add('show');
+  score.innerText++;
+  // setTimeout(e.target.classList.remove('show'), 5000);
+  // if (flippedCard.classList === nextCard.firstElementChild.classList) {
+  //   flippedCard.classList.add('matched')
+  // }
 };
 
 gameArea.addEventListener('click', revealCards)
 restartButton.addEventListener('click', restartGame);
+// shuffle(cardList)
 
-
-console.log(cards);
+// console.log(cardList);
 
 // console.log(shuffle(cards));
 
-restartGame();
+// restartGame();
