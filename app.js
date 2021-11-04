@@ -13,26 +13,36 @@ let shuffle = function(array) {
   return array;
 }
 
+const restartButton = document.querySelector('.restart');
+const gameArea = document.querySelector('#cards');
+const cards = document.querySelectorAll('.card');
+// const cardArr = Array.from(cards);
+
+
 const restartGame = () => {
-  
+  const cardArr = [];
+  for (const card of cards) {
+    card.classList.remove('show', 'matched');
+    cardArr.push(card);
+    console.log(card)
+  }
+  shuffle(cardArr);
   // cards.classList.remove('show', 'matched')
 };
 
 
 
-const gameArea = document.querySelector('#cards');
 
 const revealCards = (e) => {
   e.target.classList.add('show');
 };
 
 gameArea.addEventListener('click', revealCards)
+restartButton.addEventListener('click', restartGame);
 
 
-
-const cards = document.querySelectorAll('.card');
 console.log(cards);
 
-console.log(shuffle(cards));
+// console.log(shuffle(cards));
 
 restartGame();
