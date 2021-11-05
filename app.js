@@ -1,3 +1,13 @@
+const restartButton = document.querySelector('.restart');
+const gameArea = document.querySelector('#cards');
+const cardList = document.querySelectorAll('.card');
+const cardHolder = document.getElementById('cards');
+const cardSymbol = cardHolder.querySelectorAll('i.fas:not(.fa-redo');
+const nextCard = document.getElementById('next-card');
+const score = document.getElementById('score');
+const nextCardSymbol = [];
+let matchedCards = [];
+
 // Shuffle function from http://stackoverflow.com/a/2450976
 let shuffle = function(array) {
   let currentIndex = array.length, temporaryValue, randomIndex;
@@ -13,64 +23,69 @@ let shuffle = function(array) {
   return array;
 }
 
-const restartButton = document.querySelector('.restart');
-const gameArea = document.querySelector('#cards');
-const cardList = document.querySelectorAll('.card');
-const cardHolder = document.getElementById('cards');
-const cardSymbol = cardHolder.getElementsByTagName('i');
-const nextCard = document.getElementById('next-card');
-const score = document.getElementById('score');
-// console.log(cardSymbol)
-// const cardArr = Array.from(cards);
+const newCardList = () => {
+  cardSymbol.forEach(e => {
+    nextCardSymbol.push(e);
+  });
+}
 
+const cardShuffle = () => {
+  const cardArr = [];
+  cardList.forEach(e => {
+    cardArr.push(e);
+  });
+  shuffle(cardArr);
+  for (const card of cardArr) {
+    cardHolder.appendChild(card);
+  }
+};
+
+const checkMatch = (cardFlipped) => {
+  if (cardFlipped.firstElementChild.className === nextCard.firstElementChild.className) {
+    cardFlipped.classList.add('matched');
+    matchedCards.push(cardFlipped);
+    nextCardSymbol.shift();
+  }
+  checkWin();
+  nextCard.innerHTML = `<i class="${nextCardSymbol[0].classList}"></i>`
+};
 
 const restartGame = () => {
+  newCardList();
+  nextCard.innerHTML = `<i class="${nextCardSymbol[0].classList}"></i>`
   clearClasses();
   score.innerText = '0';
-  // const cardArr = [];
-  // let shuffled = {};
-  // for (const sym of cardList) {
-  // }
-  // cardList.appendChild(shuffle(cards.children));
-  // for (const card of cardList) {
-  //   card.classList.remove('show', 'matched');
-  //   cardArr.push(sym);
-    // cardArr.push(card);
-    // console.log(card);
-  // }
-  // for (const sym of cardArr) {
-  //   shuffled = {li: `${sym}`}
-  // }
-  // console.log(cardArr);
-  // cards.classList.remove('show', 'matched')
+  cardShuffle();
+  matchedCards = [];
 };
 
 const clearClasses = () => {
   for (const card of cardList) {
     card.classList.remove('show', 'matched');
   }
-  // const cards = cardHolder.splice();
-  // console.log(shuffle(cards));
-
 }
-
 
 const revealCards = (e) => {
   const flippedCard = e.target;
+  if (flippedCard.firstElementChild.className !== 'card') {
+    if (flippedCard.classList !== 'matched') {
+      checkMatch(flippedCard);
+      score.innerText++;
+      setTimeout(() => {
+        flippedCard.classList.remove('show');
+      }, 1000);
+    }
+  }
   flippedCard.classList.add('show');
-  score.innerText++;
-  // setTimeout(e.target.classList.remove('show'), 5000);
-  // if (flippedCard.classList === nextCard.firstElementChild.classList) {
-  //   flippedCard.classList.add('matched')
-  // }
 };
 
-gameArea.addEventListener('click', revealCards)
+const checkWin = () => {
+  if (matchedCards.length === 12) {
+    setTimeout(() => {
+      alert('You Win!')
+    }, 100);
+  }
+};
+
+cardHolder.addEventListener('click', revealCards)
 restartButton.addEventListener('click', restartGame);
-// shuffle(cardList)
-
-// console.log(cardList);
-
-// console.log(shuffle(cards));
-
-// restartGame();
